@@ -7,7 +7,7 @@ import { IconBrandGoogle } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase.ts";
+import { auth } from "./firebase";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,16 +16,35 @@ export default function SignupFormDemo() {
     e.preventDefault();
     console.log("Form submitted");
     try {
-      await createUserWithEmailAndPassword(auth, Email, Password);
-      const user = auth.currentUser;
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        Email,
+        Password
+      );
+      const user = userCredential.user;
       console.log(user);
       console.log("User created");
       toast.success("User created", { position: "top-center" });
+
+      // Send user data to backend
+      await fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firebaseUID: user.uid,
+          firstName: Fname,
+          lastName: Lname,
+          email: Email,
+        }),
+      });
     } catch (error: any) {
       console.warn(error.message);
       toast.error(error.message, { position: "bottom-center" });
     }
   };
+
   const navigate = useNavigate();
 
   const [Fname, setFname] = useState("");
