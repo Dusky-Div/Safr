@@ -3,9 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "ts-node": {
+    "esm": true
+  },
   "scripts": {
     "dev": "vite --host",
-    "dev:server": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "dev:server": "nodemon --exec tsx src/server.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -28,7 +31,8 @@
     "react-router": "^7.1.5",
     "react-toastify": "^11.0.3",
     "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
