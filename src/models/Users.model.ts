@@ -1,17 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface IUser extends Document {
-  firebaseUID: string; // Store the Firebase UID
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema(
   {
-    firebaseUID: { type: String, required: true, unique: true }, // Add UID field
+    firebaseUID: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -19,5 +10,5 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-const User = mongoose.model<IUser>("User", UserSchema, "User");
+const User = mongoose.model("User", UserSchema, "User");
 export default User;

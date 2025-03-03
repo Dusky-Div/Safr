@@ -1,8 +1,26 @@
 import { Router } from "express";
-import User from "../models/users.model.ts";
+import User from "../models/Users.model.ts";
 
 const router = Router();
 
+//Fetching user details using firebaseUID
+router.get("/api/user/:firebaseUID", async (req: any, res: any) => {
+  try {
+    const { firebaseUID } = req.params;
+    const user = await User.findOne({ firebaseUID });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Saving user data in mongoDB
 router.post("/signup", async (req: any, res: any) => {
   try {
     const { firebaseUID, firstName, lastName, email } = req.body;

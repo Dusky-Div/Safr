@@ -3,8 +3,8 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import userRoutes from "./routes/users.ts";
-import connectDB from "./lib/db.ts";
+import users from "./routes/users.ts";
+import connectDB from "./db/db.ts";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 
 //Routes
-app.use("/", userRoutes);
+app.use("/", users);
 
 const startServer = async () => {
   try {
