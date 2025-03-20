@@ -1,90 +1,41 @@
 "use client";
 import React from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "@/components/atoms/label.tsx";
+import { Input } from "@/components/atoms/input.tsx";
 import { cn } from "@/lib/utils";
 import { IconBrandGoogle } from "@tabler/icons-react";
-import { useNavigate } from "react-router";
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { auth } from "../../firebase.ts";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router";
 
 export default function SignupFormDemo() {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        Email,
-        Password
-      );
-      const user = userCredential.user;
-      console.log(user);
-      console.log("User created");
-      toast.success("User created", { position: "top-center" });
-
-      // Send user data to backend
-      await fetch("http://localhost:3000/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firebaseUID: user.uid,
-          firstName: Fname,
-          lastName: Lname,
-          email: Email,
-        }),
-      });
+      await signInWithEmailAndPassword(auth, Email, Password);
+      console.log("User logged in");
+      window.location.href = "/";
     } catch (error: any) {
       console.warn(error.message);
-      toast.error(error.message, { position: "bottom-center" });
     }
   };
-
-  const navigate = useNavigate();
-
-  const [Fname, setFname] = useState("");
-  const [Lname, setLname] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Welcome to Refactr
+        Login to Refactr
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Sign Up to Refactr if you can because we don&apos;t have a login flow
-        yet.
+        Login to Refactr if you can because we don&apos;t have a login flow yet.
       </p>
 
       <form className="my-8" onSubmit={handleSubmit}>
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-          <LabelInputContainer>
-            <Label htmlFor="firstname">First name</Label>
-            <Input
-              id="firstname"
-              placeholder="Tyler"
-              type="text"
-              value={Fname}
-              onChange={(e) => setFname(e.target.value)}
-            />
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <Label htmlFor="lastname">Last name</Label>
-            <Input
-              id="lastname"
-              placeholder="Durden"
-              type="text"
-              value={Lname}
-              onChange={(e) => setLname(e.target.value)}
-            />
-          </LabelInputContainer>
-        </div>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
           <Input
@@ -128,15 +79,15 @@ export default function SignupFormDemo() {
             <BottomGradient />
           </button>
           <div className="flex self-center">
-            Have an account already?&nbsp;
+            Don't have an account?&nbsp;
             <button>
               <a
                 className="text-blue-600 hover:underline"
                 onClick={() => {
-                  navigate("/login");
+                  navigate("/signup");
                 }}
               >
-                Login
+                Sign Up
               </a>
             </button>
           </div>

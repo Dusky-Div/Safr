@@ -1,10 +1,12 @@
-import { useAuth } from "../../components/AuthContext.tsx";
+import { useAuth } from "../../authContext/AuthContext.tsx";
 import { useEffect, useState } from "react";
+import SideNav from "../templates/SideNav.tsx";
+import TopBar from "../templates/TopBar.tsx";
+import MainArea from "../templates/MainArea.tsx";
 
 const Home = () => {
   const auth = useAuth();
   const user = auth?.user;
-  const logout = auth?.logout;
   const [firstName, setFirstName] = useState<string>("");
 
   useEffect(() => {
@@ -33,17 +35,13 @@ const Home = () => {
   }, [user]);
 
   return (
-    <div>
-      <div>
-        <h1>Welcome, {user ? firstName : "Guest"}</h1>
-        {user ? (
-          <button onClick={logout}>Logout</button>
-        ) : (
-          <button onClick={() => (window.location.href = "/login")}>
-            Login
-          </button>
-        )}
-      </div>
+    <div className="flex h-svh">
+      <SideNav />
+      <div className="flex flex-col w-full">
+        <TopBar />
+        <MainArea />
+      </div>{" "}
+      {/* <h1>Welcome, {user ? firstName : "Guest"}</h1> */}
     </div>
   );
 };
