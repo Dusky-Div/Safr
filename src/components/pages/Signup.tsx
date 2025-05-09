@@ -24,9 +24,7 @@ export default function SignupFormDemo() {
       const user = userCredential.user;
       console.log(user);
       console.log("User created");
-      toast.success("User created", { position: "top-center" });
 
-      // Send user data to backend
       await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
