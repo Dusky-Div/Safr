@@ -7,6 +7,7 @@ import MainArea from "../templates/MainArea.tsx";
 const Home = () => {
   const auth = useAuth();
   const user = auth?.user;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [firstName, setFirstName] = useState<string>("");
 
   useEffect(() => {
@@ -15,9 +16,7 @@ const Home = () => {
         try {
           console.log(user);
           console.log(user.uid);
-          const response = await fetch(
-            `http://localhost:3000/api/user/${user.uid}`
-          );
+          const response = await fetch(`${BACKEND_URL}/api/user/${user.uid}`);
 
           if (!response.ok) {
             throw new Error("Failed to fetch user");

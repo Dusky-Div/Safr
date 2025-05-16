@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function SignupFormDemo() {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
@@ -25,7 +27,8 @@ export default function SignupFormDemo() {
       console.log(user);
       console.log("User created");
 
-      await fetch("http://localhost:3000/signup", {
+      // Send user data to backend
+      await fetch(`${BACKEND_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
