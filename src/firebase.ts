@@ -6,12 +6,13 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyChl6uHqbuahSk1oX1_gMWa-sAhGmtk17k",
-  authDomain: "refactr-455eb.firebaseapp.com",
-  projectId: "refactr-455eb",
-  storageBucket: "refactr-455eb.firebasestorage.app",
-  messagingSenderId: "154397569136",
-  appId: "1:154397569136:web:e858188c8ac3ebd12ac4b5",
+  apiKey: "AIzaSyBNoQa3VmB1BCOiTtp1UH0DMMQae8ISppQ",
+  authDomain: "safr-ee331.firebaseapp.com",
+  projectId: "safr-ee331",
+  storageBucket: "safr-ee331.firebasestorage.app",
+  messagingSenderId: "660892318292",
+  appId: "1:660892318292:web:c89775a3857dfba76d0bc1",
+  measurementId: "G-GC9L6W9K36",
 };
 
 // Initialize Firebase
