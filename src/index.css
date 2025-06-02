@@ -75,3 +75,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  font-family: Lexend, sans-serif;
+}

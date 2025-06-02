@@ -3,10 +3,10 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+const FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBNoQa3VmB1BCOiTtp1UH0DMMQae8ISppQ",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "safr-ee331.firebaseapp.com",
   projectId: "safr-ee331",
   storageBucket: "safr-ee331.firebasestorage.app",

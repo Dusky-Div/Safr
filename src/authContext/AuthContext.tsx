@@ -25,21 +25,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(firebaseUser);
       setLoading(false);
 
-      // if (
-      //   (firebaseUser && window.location.pathname === "/login") ||
-      //   window.location.pathname === "/signup"
-      // ) {
-      //   navigate("/");
-      // }
+      if (
+        !loading &&
+        user &&
+        (location.pathname === "/login" || location.pathname === "/signup")
+      ) {
+        navigate("/");
+      }
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [user, loading, location.pathname, navigate]);
 
   const logout = async () => {
     try {
       await signOut(auth);
       console.log("User logged out");
+      window.location.reload();
     } catch (error) {
       console.error("Logout error:", error);
     }

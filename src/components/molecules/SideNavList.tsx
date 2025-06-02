@@ -1,25 +1,46 @@
 import SideNavListItem from "../atoms/SideNavListItem";
-import { ScrollArea } from "../component-lib/ScrollArea";
+import {
+  CreditCard,
+  Fingerprint,
+  GalleryVerticalEnd,
+  KeyRound,
+  Landmark,
+  LockKeyholeOpen,
+  Wifi,
+} from "lucide-react";
 
 const SideNavList = () => {
   return (
-    <ScrollArea className="flex flex-col h-3/5 my-4 px-2">
-      <SideNavListItem Title={"Firebase authentication setup"} />
-      <SideNavListItem Title={"Python script to read a file"} />
-      <SideNavListItem Title={"Basic Flask API example"} />
-      <SideNavListItem Title={"AsyncIO in Python basics"} />
-      <SideNavListItem Title={"How to use Python decorators"} />
-      <SideNavListItem Title={"Python list comprehensions"} />
-      <SideNavListItem Title={"Handling exceptions in Python"} />
-      <SideNavListItem Title={"Django models and migrations"} />
-      <SideNavListItem Title={"Python regex examples"} />
-      <SideNavListItem Title={"Setting up a virtual environment"} />
-      <SideNavListItem Title={"How to use `requests` module in Python"} />
-      <SideNavListItem Title={"List slicing in Python"} />
-      <SideNavListItem Title={"Understanding Python generators"} />
-      <SideNavListItem Title={"Python dictionary operations"} />
-      <SideNavListItem Title={"Python for data analysis with pandas"} />
-    </ScrollArea>
+    <div className="flex flex-col h-3/5 px-2">
+      <SideNavListItem
+        Title={"All Items"}
+        Icon={<GalleryVerticalEnd size={18} color="#a0cc00" />}
+      />
+      <SideNavListItem
+        Title={"Passwords"}
+        Icon={<LockKeyholeOpen size={18} color="#FF5733" />}
+      />
+      <SideNavListItem
+        Title={"WI-FI"}
+        Icon={<Wifi size={18} strokeWidth={2.2} color="#83c760" />}
+      />
+      <SideNavListItem
+        Title={"Credit Cards"}
+        Icon={<CreditCard size={18} color="#90d5ff" />}
+      />
+      <SideNavListItem
+        Title={"Bank Accounts"}
+        Icon={<Landmark size={18} color="#d4a1fe" />}
+      />
+      <SideNavListItem
+        Title={"Passkeys"}
+        Icon={<KeyRound size={18} color="#FFC733" />}
+      />
+      <SideNavListItem
+        Title={"Security Questions"}
+        Icon={<Fingerprint size={18} color="#08a4a7" />}
+      />
+    </div>
   );
 };
 
