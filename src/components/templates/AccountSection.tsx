@@ -36,7 +36,7 @@ const AccountSection = () => {
   return (
     <div className="absolute justify-center flex bottom-8 w-full h-fit">
       <button
-        className="flex w-60 h-fit gap-4 justify-between p-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg"
+        className="flex w-60 h-fit gap-4 justify-between p-4 rounded-3xl bg-[#1d1d1d] backdrop-blur-md shadow-lg"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex gap-2">
@@ -57,7 +57,7 @@ const AccountSection = () => {
         </div>
       </button>
       {expanded && (
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 flex-col flex w-60 h-fit px-3 py-3 items-start rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+        <div className="absolute -top-[168px] left-1/2 -translate-x-1/2 flex-col flex w-60 h-fit px-4 py-4 items-start rounded-3xl bg-[#1d1d1d] shadow-2xl">
           <p className="text-[#b0b0b0] text-sm mb-1 font-normal px-2">
             Your account
           </p>
