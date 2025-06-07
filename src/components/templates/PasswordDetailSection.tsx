@@ -153,7 +153,7 @@ const PasswordDetailSection = () => {
           <div className="flex flex-col w-fit">
             <p
               className={`text-sm font-normal ${
-                isEditing ? "text-[#358cef]" : "text-[#656565]"
+                isEditing ? "text-[#3087ec]" : "text-[#656565]"
               }`}
             >
               Website

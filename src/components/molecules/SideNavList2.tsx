@@ -6,7 +6,6 @@ import {
   Landmark,
   LockKeyholeOpen,
   NotebookPen,
-  Wifi,
 } from "lucide-react";
 
 const SideNavList2 = () => {
@@ -16,13 +15,9 @@ const SideNavList2 = () => {
         Title={"Passwords"}
         Icon={<LockKeyholeOpen size={18} />}
       />
-      <SideNavListItem
-        Title={"WI-FI"}
-        Icon={<Wifi size={18} strokeWidth={2.2} />}
-      />
       <SideNavListItem Title={"Credit Cards"} Icon={<CreditCard size={18} />} />
       <SideNavListItem Title={"Bank Accounts"} Icon={<Landmark size={18} />} />
-      <SideNavListItem Title={"Passkeys"} Icon={<KeyRound size={18} />} />
+      <SideNavListItem Title={"API keys"} Icon={<KeyRound size={18} />} />
       <SideNavListItem
         Title={"Security Questions"}
         Icon={<Fingerprint size={18} />}
