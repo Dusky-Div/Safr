@@ -1,116 +1,63 @@
-import PasswordItem from "../atoms/PasswordItem";
+import { useEffect, useState } from "react";
+import VaultItem from "../atoms/VaultItem.tsx";
+import { useAuth } from "../../authContext/AuthContext.tsx";
+
+interface VaultEntry {
+  _id: string;
+  firebaseUID: string;
+  entryType: string;
+  displayData: any; // Will vary per type
+  updatedAt: string;
+}
 
 const PasswordsList = () => {
-  const passwordData = [
-    {
-      websiteName: "Pinterest",
-      websiteURL: "pinterest.com",
-      logoURL:
-        "https://pngfre.com/wp-content/uploads/nike-logo-18-1024x1024.png",
-      username: "divyanshyadu25",
-      updated: "4 days ago",
-    },
-    {
-      websiteName: "Netflix",
-      websiteURL: "netflix.com",
-      logoURL: "https://loodibee.com/wp-content/uploads/Netflix-logo.png",
-      username: "divyansh.netflix",
-      updated: "2 weeks ago",
-    },
-    {
-      websiteName: "GitHub",
-      websiteURL: "github.com",
-      logoURL:
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-      username: "divyansh-code",
-      updated: "1 day ago",
-    },
-    {
-      websiteName: "Spotify",
-      websiteURL: "spotify.com",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7_HT_3dSC6StBbOFFnFoIhrp1wqQdnDP5_w&s",
-      username: "dvysh_music",
-      updated: "24 Sept 2023",
-    },
-    {
-      websiteName: "Amazon",
-      websiteURL: "amazon.in",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7ZoPxHxiJ8nsrZTejjkVOIWcBlJt1D0KhLQ&s",
-      username: "divyansh.amazon",
-      updated: "3 weeks ago",
-    },
-    {
-      websiteName: "Pinterest",
-      websiteURL: "pinterest.com",
-      logoURL:
-        "https://pngfre.com/wp-content/uploads/nike-logo-18-1024x1024.png",
-      username: "divyanshyadu25",
-      updated: "4 days ago",
-    },
-    {
-      websiteName: "GitHub",
-      websiteURL: "github.com",
-      logoURL:
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-      username: "divyansh-code",
-      updated: "1 day ago",
-    },
-    {
-      websiteName: "Spotify",
-      websiteURL: "spotify.com",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7_HT_3dSC6StBbOFFnFoIhrp1wqQdnDP5_w&s",
-      username: "dvysh_music",
-      updated: "24 Sept 2023",
-    },
-    {
-      websiteName: "Amazon",
-      websiteURL: "amazon.in",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7ZoPxHxiJ8nsrZTejjkVOIWcBlJt1D0KhLQ&s",
-      username: "divyansh.amazon",
-      updated: "3 weeks ago",
-    },
-    {
-      websiteName: "Pinterest",
-      websiteURL: "pinterest.com",
-      logoURL:
-        "https://pngfre.com/wp-content/uploads/nike-logo-18-1024x1024.png",
-      username: "divyanshyadu25",
-      updated: "4 days ago",
-    },
-    {
-      websiteName: "GitHub",
-      websiteURL: "github.com",
-      logoURL:
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-      username: "divyansh-code",
-      updated: "1 day ago",
-    },
-    {
-      websiteName: "Spotify",
-      websiteURL: "spotify.com",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7_HT_3dSC6StBbOFFnFoIhrp1wqQdnDP5_w&s",
-      username: "dvysh_music",
-      updated: "24 Sept 2023",
-    },
-    {
-      websiteName: "Amazon",
-      websiteURL: "amazon.in",
-      logoURL: "",
-      username: "divyansh.amazon",
-      updated: "3 weeks ago",
-    },
-  ];
+  const { user } = useAuth();
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const [vaultData, setVaultData] = useState<VaultEntry[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `${BACKEND_URL}/api/vault?firebaseUID=${user?.uid}`,
+          { credentials: "include" }
+        );
+        const result = await res.json();
+        const allEntries: VaultEntry[] = result.data;
+
+        if (!Array.isArray(allEntries)) {
+          console.error("Expected array from backend but got:", result.data);
+          return;
+        }
+
+        console.log("Fetched entries:", allEntries); // 👈 add this line
+
+        const formatted = allEntries
+          .filter((entry) => entry.entryType && entry.updatedAt)
+          .map((item) => ({
+            ...item,
+            updatedAt: new Date(item.updatedAt).toISOString(),
+          }));
+
+        formatted.sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+
+        setVaultData(formatted);
+      } catch (err) {
+        console.error("Failed to fetch vault data", err);
+      }
+    };
+
+    if (user?.uid) fetchData();
+  }, [user?.uid]);
 
   return (
     <div className="flex flex-col h-fit w-full overflow-auto mt-4">
       <div className="data flex flex-col">
-        {passwordData.map((item, index) => (
-          <PasswordItem key={index} data={item} />
+        {vaultData.map((item) => (
+          <VaultItem key={item._id} entry={item} />
         ))}
       </div>
     </div>
