@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../../authContext/AuthContext.tsx";
 import {
   Copy,
   EyeClosed,
@@ -9,20 +10,59 @@ import {
 } from "lucide-react";
 
 const PasswordInput = () => {
+  const { user } = useAuth(); // assumes you use context to get firebaseUID
+  const [showPassword, setShowPassword] = useState(false);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const [formData, setFormData] = useState({
     type: "password",
     websiteName: "",
     websiteURL: "",
-    logoURL: "",
     username: "",
     password: "",
-    updated: "",
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = async () => {
+    if (!user?.uid) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const payload = {
+      firebaseUID: user.uid,
+      entryType: formData.type,
+      displayData: {
+        websiteName: formData.websiteName || "Unnamed Website",
+        websiteURL: formData.websiteURL || "",
+        username: formData.username || "",
+      },
+      data: {
+        password: formData.password,
+      },
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/save-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save password");
+      }
+
+      const result = await response.json();
+      console.log("Password saved successfully:", result);
+    } catch (error) {
+      console.error("Error saving password:", error);
+    }
   };
 
   return (
@@ -107,7 +147,10 @@ const PasswordInput = () => {
           <UndoDot color="#ffb2b2" size={16} strokeWidth={2.8} />
           <p className="text-sm text-[#ffb2b2]">Discard</p>
         </button>
-        <button className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30">
+        <button
+          onClick={handleSave}
+          className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30"
+        >
           <Save color="#93C5FD" size={16} strokeWidth={2.8} />
 
           <p className="text-sm text-blue-300">Save</p>

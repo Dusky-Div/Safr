@@ -5,7 +5,7 @@ import { Input } from "@/components/atoms/input.tsx";
 import { cn } from "@/lib/utils";
 import { IconBrandGoogle } from "@tabler/icons-react";
 import { useState } from "react";
-import { auth } from "../../firebase.ts";
+import { auth } from "../../firebase/firebase.ts";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router";
 

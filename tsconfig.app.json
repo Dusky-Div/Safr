@@ -27,5 +27,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src" // ONLY include the frontend's src directory
+    // Remove all 'backend/*' paths as they are no longer in this project
+  ],
+  "exclude": [
+    "node_modules" // You might want to explicitly exclude node_modules
+  ]
 }

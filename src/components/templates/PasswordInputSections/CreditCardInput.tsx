@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Copy, EyeClosed, Eye, UndoDot, Save } from "lucide-react";
+import { useAuth } from "../../../authContext/AuthContext.tsx";
 
 const CreditCardInput = () => {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     type: "creditCard",
     cardHolderName: "",
@@ -24,6 +27,41 @@ const CreditCardInput = () => {
       }
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const payload = {
+        firebaseUID: user?.uid,
+        entryType: formData.type,
+        displayData: {
+          cardName: formData.cardName || "Untitled Card",
+          cardHolderName: formData.cardHolderName,
+        },
+        data: {
+          cardNumber: formData.cardNumber,
+          expiryDate: formData.expiryDate,
+          cvv: formData.cvv,
+        },
+      };
+
+      const response = await fetch(`${BACKEND_URL}/api/save-creditCard`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log("Data sent successfully to backend");
+      // Optionally, you can clear the form or redirect the user here
+    } catch (error) {
+      console.error("Failed to send data to backend:", error);
+      // Handle errors, e.g., show a notification to the user
     }
   };
 
@@ -121,7 +159,10 @@ const CreditCardInput = () => {
           <UndoDot color="#ffb2b2" size={16} strokeWidth={2.8} />
           <p className="text-sm text-[#ffb2b2]">Discard</p>
         </button>
-        <button className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30">
+        <button
+          onClick={handleSave}
+          className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30"
+        >
           <Save color="#93C5FD" size={16} strokeWidth={2.8} />
 
           <p className="text-sm text-blue-300">Save</p>

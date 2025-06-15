@@ -7,7 +7,6 @@ import PasswordInput from "./components/templates/PasswordInputSections/Password
 import CreditCardInput from "./components/templates/PasswordInputSections/CreditCardInput";
 import BankAccountInput from "./components/templates/PasswordInputSections/BankAccountInput";
 import ApiKeyInput from "./components/templates/PasswordInputSections/ApiKeyInput";
-import SecurityQuestionInput from "./components/templates/PasswordInputSections/SecurityQuestionInput";
 import SecureNotesInput from "./components/templates/PasswordInputSections/SecureNoteInput";
 
 const App = () => {
@@ -27,10 +26,6 @@ const App = () => {
         <Route path="enter-card-details" element={<CreditCardInput />} />
         <Route path="enter-bank-details" element={<BankAccountInput />} />
         <Route path="enter-api-details" element={<ApiKeyInput />} />
-        <Route
-          path="enter-security-question-details"
-          element={<SecurityQuestionInput />}
-        />
         <Route path="enter-note-details" element={<SecureNotesInput />} />
       </Route>
     </Routes>

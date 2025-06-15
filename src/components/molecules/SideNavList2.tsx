@@ -1,7 +1,6 @@
 import SideNavListItem from "../atoms/SideNavListItem";
 import {
   CreditCard,
-  Fingerprint,
   KeyRound,
   Landmark,
   LockKeyholeOpen,
@@ -18,10 +17,6 @@ const SideNavList2 = () => {
       <SideNavListItem Title={"Credit Cards"} Icon={<CreditCard size={18} />} />
       <SideNavListItem Title={"Bank Accounts"} Icon={<Landmark size={18} />} />
       <SideNavListItem Title={"API keys"} Icon={<KeyRound size={18} />} />
-      <SideNavListItem
-        Title={"Security Questions"}
-        Icon={<Fingerprint size={18} />}
-      />
       <SideNavListItem
         Title={"Secure Notes"}
         Icon={<NotebookPen size={18} />}

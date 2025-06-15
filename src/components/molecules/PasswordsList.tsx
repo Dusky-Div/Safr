@@ -100,8 +100,7 @@ const PasswordsList = () => {
     {
       websiteName: "Amazon",
       websiteURL: "amazon.in",
-      logoURL:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7ZoPxHxiJ8nsrZTejjkVOIWcBlJt1D0KhLQ&s",
+      logoURL: "",
       username: "divyansh.amazon",
       updated: "3 weeks ago",
     },

@@ -1,6 +1,5 @@
 import {
   CreditCard,
-  Fingerprint,
   KeyRound,
   Landmark,
   LockKeyholeOpen,
@@ -57,12 +56,6 @@ const PasswordSection = () => {
                 Title={"API keys"}
                 Icon={<KeyRound size={18} />}
                 Route="/enter-api-details"
-                setAddButtonClicked={setAddButtonClicked}
-              />
-              <AddButtonListItem
-                Title={"Security Questions"}
-                Icon={<Fingerprint size={18} />}
-                Route="/enter-security-question-details"
                 setAddButtonClicked={setAddButtonClicked}
               />
               <AddButtonListItem

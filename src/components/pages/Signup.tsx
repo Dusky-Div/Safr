@@ -7,7 +7,7 @@ import { IconBrandGoogle } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "../../firebase/firebase";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

@@ -1,7 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// src/contexts/AuthContext.tsx
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { auth } from "../firebase";
 import { useNavigate } from "react-router";
+import { auth } from "../firebase/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -11,9 +18,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const useAuth = () => useContext(AuthContext);
-
-import { ReactNode } from "react";
+export const useAuth = (): AuthContextType => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
+  return ctx;
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -25,26 +34,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(firebaseUser);
       setLoading(false);
 
+      // if user is logged in and on an auth page, redirect home
       if (
         !loading &&
-        user &&
-        (location.pathname === "/login" || location.pathname === "/signup")
+        firebaseUser &&
+        ["/login", "/signup"].includes(window.location.pathname)
       ) {
         navigate("/");
       }
     });
-
-    return () => unsubscribe();
-  }, [user, loading, location.pathname, navigate]);
+    return unsubscribe;
+  }, [loading, navigate]);
 
   const logout = async () => {
-    try {
-      await signOut(auth);
-      console.log("User logged out");
-      window.location.reload();
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+    await signOut(auth);
+    window.location.reload();
   };
 
   return (

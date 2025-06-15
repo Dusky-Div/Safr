@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { UndoDot, Save } from "lucide-react";
+import { useAuth } from "../../../authContext/AuthContext.tsx";
+import { Save, UndoDot } from "lucide-react";
 
 const SecureNoteInput = () => {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const { user } = useAuth(); // Grabs Firebase UID
   const [formData, setFormData] = useState({
     type: "secureNote",
     title: "",
@@ -10,6 +13,43 @@ const SecureNoteInput = () => {
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = async () => {
+    if (!user?.uid) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const payload = {
+      firebaseUID: user.uid,
+      entryType: formData.type,
+      displayData: {
+        title: formData.title || "Untitled Note",
+      },
+      data: {
+        noteContent: formData.noteContent,
+      },
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/save-secureNote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save secure note");
+      }
+
+      const result = await response.json();
+      console.log("Secure note saved:", result);
+    } catch (error) {
+      console.error("Error saving secure note:", error);
+    }
   };
 
   return (
@@ -46,7 +86,10 @@ const SecureNoteInput = () => {
           <UndoDot color="#ffb2b2" size={16} strokeWidth={2.8} />
           <p className="text-sm text-[#ffb2b2]">Discard</p>
         </button>
-        <button className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30">
+        <button
+          onClick={handleSave}
+          className="flex h-fit w-24 items-center justify-center gap-1 px-4 py-2 rounded-lg hover:bg-blue-500/20 bg-blue-500/30"
+        >
           <Save color="#93C5FD" size={16} strokeWidth={2.8} />
           <p className="text-sm text-blue-300">Save</p>
         </button>
